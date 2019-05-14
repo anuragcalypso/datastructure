@@ -55,7 +55,30 @@ func reverseLinkedList(head: Node?) -> Node? {
     return prev
 }
 
-let head = createLinkedList(length: 5)
+func addAtPostion(head: Node?, val: Int, pos: Int) -> Node? {
+    if let h = head {
+        var curr: Node? = h
+        for _ in 0...pos {
+            curr = curr?.next
+        }
+        
+        if let c = curr {
+            let newNode = Node(val)
+            let temp = c.next
+            c.next = newNode
+            newNode.next = temp
+        }
+    }
+    
+    return head
+}
+
+var head = createLinkedList(length: 5)
 printLinkedList(head: head)
+
+head = addAtPostion(head: head, val: 10, pos: 2)
+
+printLinkedList(head: head)
+
 let revHead = reverseLinkedList(head: head)
 printLinkedList(head: revHead)
