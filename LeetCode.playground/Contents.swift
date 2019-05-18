@@ -286,14 +286,195 @@ class MergeTwoSortedLinkedList {
     }
 }
 
-var l1 = ListNode(2)
-l1.next = ListNode(2)
-l1.next?.next = ListNode(4)
+/*
+ var l1 = ListNode(2)
+ l1.next = ListNode(2)
+ l1.next?.next = ListNode(4)
+ 
+ var l2 = ListNode(1)
+ l2.next = ListNode(3)
+ l2.next?.next = ListNode(4)
+ let head = MergeTwoSortedLinkedList.mergeTwoLists(l1, l2)
+ print("Merged Linked List Results:")
+ ListNode.printLinkedList(head: head)
 
-var l2 = ListNode(1)
-l2.next = ListNode(3)
-l2.next?.next = ListNode(4)
-let head = MergeTwoSortedLinkedList.mergeTwoLists(l1, l2)
-print("Merged Linked List Results:")
-ListNode.printLinkedList(head: head)
+ */
+
+//i + (i+1) + j + (j-1) + k
+func getSequenceSum(i: Int, j: Int, k: Int) -> Int {
+    var sum: Int = 0
+    
+    var q = i
+    while(q != j) {
+        sum += i + q
+        if q > j {
+            q = q - 1
+        }
+        
+        if q < j {
+            q = q + 1
+        }
+        
+        print("sum: \(sum) q: \(q)")
+    }
+    
+    
+    
+    var p = j
+    while(p != k) {
+        sum += j - p
+        if p > k {
+            p = p - 1
+        }
+        
+        if p < k {
+            p = p + 1
+        }
+    }
+    
+    sum += k
+    
+    return sum
+}
+
+print(getSequenceSum(i: -5, j: -1, k: -3))
+
+ //0 + 1 + 1
+
+
+//Question:
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public var val: Int
+ *     public var left: TreeNode?
+ *     public var right: TreeNode?
+ *     public init(_ val: Int) {
+ *         self.val = val
+ *         self.left = nil
+ *         self.right = nil
+ *     }
+ * }
+ */
+
+public class TreeNode {
+    public var val: Int
+    public var left: TreeNode?
+    public var right: TreeNode?
+    public init(_ val: Int) {
+        self.val = val
+        self.left = nil
+        self.right = nil
+    }
+}
+
+//Symmetric Tree
+
+class Solution {
+    
+    func inorder(_ root: TreeNode?) {
+        if let root = root {
+            inorder(root.left)
+            print(root.val)
+            inorder(root.right)
+        } else {
+            return
+        }
+    }
+    
+    func isSymmetric(_ root: TreeNode?) -> Bool {
+        return mirror(root, n2: root)
+    }
+    
+    func mirror( _ n1: TreeNode?, n2: TreeNode?) -> Bool {
+        if n1 == nil && n2 == nil {
+            return true
+        }
+        
+        if (n1?.val == n2?.val && mirror(n1?.left, n2: n2?.right) && mirror(n1?.right, n2: n2?.left)) {
+            return true
+        }
+        
+        return false
+    }
+    
+    func levelOrder(_ root: TreeNode?) {
+        if let root = root {
+            var q = Queue([root])
+        }
+    }
+    
+    func traverseBFS(q: Queue) {
+        if let element = q.dequeue() {
+            print(element.val)
+            q.enqueue(element.left)
+            q.enqueue(element.right)
+            traverseBFS(q: q)
+        }
+    }
+}
+
+class BFS {
+    func levelOrder(_ root: TreeNode?) -> [[Int]] {
+        var currentLevel: [TreeNode] = [TreeNode]()
+        var result: [[Int]]
+        if let root = root {
+            currentLevel.append(root)
+        } else {
+            result.removeAll()
+        }
+        
+        return processCurrentLevel(currentLevel, result: result)
+    }
+    
+    func processCurrentLevel(_ level: [TreeNode], result: [[Int]]) -> [[Int]] {
+        var r = result
+        var levelValues: [Int] = [Int]()
+        var nextLevel: [TreeNode] = [TreeNode]()
+        level.forEach { (node) in
+            levelValues.append(node.val)
+            if let left = node.left {
+                nextLevel.append(left)
+            }
+            
+            if let right = node.right {
+                nextLevel.append(right)
+            }
+        }
+        
+        r.append(levelValues)
+        
+        if nextLevel.count > 0 {
+            return processCurrentLevel(nextLevel, result: r)
+        } else {
+            return r
+        }
+    }
+}
+
+class Queue {
+    var items: [TreeNode] = [TreeNode]()
+    init(_ values: [TreeNode]?) {
+        if let values = values {
+            self.items = values
+        }
+    }
+    
+    func enqueue(_ value: TreeNode?) {
+        if let val = value {
+            items.append(val)
+        }
+    }
+    
+    func dequeue() -> TreeNode? {
+        var value: TreeNode? = nil
+        if let first = items.first {
+            value = first
+            items.removeFirst()
+        }
+        
+        return value
+    }
+}
 
