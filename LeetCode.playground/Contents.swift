@@ -314,8 +314,6 @@ func getSequenceSum(i: Int, j: Int, k: Int) -> Int {
         if q < j {
             q = q + 1
         }
-        
-        print("sum: \(sum) q: \(q)")
     }
     
     
@@ -337,7 +335,7 @@ func getSequenceSum(i: Int, j: Int, k: Int) -> Int {
     return sum
 }
 
-print(getSequenceSum(i: -5, j: -1, k: -3))
+//print(getSequenceSum(i: -5, j: -1, k: -3))
 
  //0 + 1 + 1
 
@@ -371,7 +369,7 @@ public class TreeNode {
 
 //Symmetric Tree
 
-class Solution {
+class Symmetric {
     
     func inorder(_ root: TreeNode?) {
         if let root = root {
@@ -399,11 +397,6 @@ class Solution {
         return false
     }
     
-    func levelOrder(_ root: TreeNode?) {
-        if let root = root {
-            var q = Queue([root])
-        }
-    }
     
     func traverseBFS(q: Queue) {
         if let element = q.dequeue() {
@@ -418,11 +411,9 @@ class Solution {
 class BFS {
     func levelOrder(_ root: TreeNode?) -> [[Int]] {
         var currentLevel: [TreeNode] = [TreeNode]()
-        var result: [[Int]]
+        var result = [[Int]]()
         if let root = root {
             currentLevel.append(root)
-        } else {
-            result.removeAll()
         }
         
         return processCurrentLevel(currentLevel, result: result)
@@ -477,4 +468,160 @@ class Queue {
         return value
     }
 }
+
+
+class ReverseNumber {
+    static func reverse(_ x: Int) -> Int {
+        var result = 0
+        let isNegative = (x < 0)
+        let val = abs(x)
+        var valStr = "\(val)"
+        valStr = String(valStr.reversed())
+        
+        if let newVal = Int(valStr) {
+            result = newVal
+        }
+        
+        return result
+    }
+}
+
+//print(ReverseNumber.reverse(123))
+
+
+class PalindromeNumber {
+    static func isPalindrome(x: Int) -> Bool {
+        if x < 0 {
+            return false
+        }
+        
+        if x < 10 {
+            return true
+        }
+        
+        var div = 1
+        while x / div >= 10 {
+            div *= 10
+        }
+        
+        var inputValue = x
+        while inputValue > 0 {
+            let l = inputValue / div //= 1
+            let r = inputValue % 10  //= 1
+            if l != r {
+                return false
+            }
+            
+            inputValue = (inputValue % div) / 10
+            div /= 100
+        }
+        
+        return true
+    }
+}
+
+//print(PalindromeNumber.isPalindrome(x: 1001))
+
+
+class RomanToString {
+    static func romanToInt(_ s: String) -> Int {
+        let chars = [Character](s)
+        var sum = 0
+        
+        var valueMap: [String: Int] = [:]
+        valueMap["I"] = 1
+        valueMap["V"] = 5
+        valueMap["X"] = 10
+        valueMap["L"] = 50
+        valueMap["C"] = 100
+        valueMap["D"] = 500
+        valueMap["M"] = 1000
+        
+        var lastVal = 0
+        chars.forEach { (char) in
+            if let val = valueMap[String(char)] {
+                if val <= lastVal {
+                    sum += val
+                } else {
+                    sum = sum + (val - lastVal)
+                    sum = sum - lastVal
+                }
+                
+                lastVal = val
+            }
+        }
+        
+        return sum
+    }
+}
+
+
+//print(RomanToString.romanToInt("IV"))
+
+//Remove nth from Linked List
+class LinkedListProblems {
+    func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+        if head == nil {
+            return head
+        }
+        
+        var curr = head
+        if curr?.next == nil, n == 1 {
+            curr = nil
+            return curr
+        }
+        
+        let node = ListNode(0)
+        var fast: ListNode? = node
+        var slow: ListNode? = node
+        var prev: ListNode? = node
+        var counter = 0
+        
+        node.next = head
+        
+        
+        while fast != nil {
+            fast = fast?.next
+            if counter == n {
+                prev = slow
+                slow = slow?.next
+            } else {
+                counter += 1
+            }
+        }
+        
+        if slow != nil {
+            prev?.next = slow?.next
+        }
+        
+        return node.next
+    }
+    
+    static func swapPairs(_ head: ListNode?) -> ListNode? {
+        guard let h = head else {
+            return head
+        }
+        
+        var curr: ListNode? = h
+        while curr != nil {
+            if let tmp = curr?.val, let nextVal = curr?.next?.val {
+                curr?.val = nextVal
+                curr?.next?.val = tmp
+            }
+            
+            curr = curr?.next?.next
+        }
+        
+        return h
+    }
+}
+
+var head = ListNode(1)
+head.next = ListNode(2)
+head.next?.next = ListNode(3)
+head.next?.next?.next = ListNode(4)
+ListNode.printLinkedList(head: head)
+
+let newHead = LinkedListProblems.swapPairs(head)
+ListNode.printLinkedList(head: newHead)
 
