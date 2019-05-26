@@ -616,12 +616,148 @@ class LinkedListProblems {
     }
 }
 
-var head = ListNode(1)
-head.next = ListNode(2)
-head.next?.next = ListNode(3)
-head.next?.next?.next = ListNode(4)
-ListNode.printLinkedList(head: head)
+/*
+    var head = ListNode(1)
+    head.next = ListNode(2)
+    head.next?.next = ListNode(3)
+    head.next?.next?.next = ListNode(4)
+    ListNode.printLinkedList(head: head)
 
-let newHead = LinkedListProblems.swapPairs(head)
-ListNode.printLinkedList(head: newHead)
+    let newHead = LinkedListProblems.swapPairs(head)
+    ListNode.printLinkedList(head: newHead)
+*/
+
+class RemoveDuplicates {
+    static var nums = [1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,4]
+    static func removeDuplicates(_ nums: inout [Int]) -> Int {
+        if nums.count < 2 {
+            return nums.count
+        }
+        
+        //maintain a valid counter
+        var count = 1
+        for i in 1..<nums.count {
+            if nums[i] != nums[i-1] {
+                nums[count] = nums[i]
+                count += 1
+            }
+            print(nums)
+        }
+        
+        return count
+    }
+    
+    static func testRemoveDuplicate() {
+        let _ = RemoveDuplicates.removeDuplicates(&nums)
+        print(nums)
+    }
+}
+
+//RemoveDuplicates.testRemoveDuplicate()
+
+class MaxSubArray {
+    static func maxSubArray(_ nums: [Int]) -> Int {
+        var m = 0
+        var result = Int.min
+        for i in 0..<nums.count {
+            m = max(nums[i], nums[i] + m)
+            result = max(result, m)
+        }
+        
+        return result
+    }
+}
+
+//print(MaxSubArray.maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
+
+class MergeTwoSorted {
+    //[-1,1,1,1,2,3]
+    static var nums = [0,0,3,0,0,0,0,0,0]
+    static func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
+        var index = m + n - 1
+        var n1 = m - 1
+        var n2 = n - 1
+        
+        while n1 >= 0 && n2 >= 0 {
+            print("\(n1)  \(n2)  \(nums1[n1])  \(nums2[n2])")
+            print(nums1)
+            if(nums1[n1] >= nums2[n2]) {
+                nums1[index] = nums1[n1];
+                index -= 1
+                n1 -= 1
+            } else {
+                nums1[index] = nums2[n2];
+                index -= 1
+                n2 -= 1
+            }
+        }
+        
+        while n2 >= 0 {
+            nums1[index] = nums2[n2];
+            index -= 1
+            n2 -= 1
+        }
+    }
+    
+    static func testMerge() {
+        MergeTwoSorted.merge(&nums, 3, [-1,1,1,1,2,3], 6)
+        print(nums)
+    }
+}
+
+//MergeTwoSorted.testMerge()
+
+class ReverseString {
+    static func reverseWords(_ s: String) -> String {
+        var nParts = s.split(separator: " ")
+        nParts = nParts.reversed()
+        var result = ""
+        nParts.forEach { (el) in
+            result = result + " " + el.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    static func reverseWords2(_ s: String) -> String {
+        let characters = Array(s)
+        var result = ""
+        
+        var wordStarted = false
+        var currentWord = ""
+        for i in stride(from: characters.count - 1, to: -1, by: -1) {
+            let currentChar = characters[i]
+            if currentChar == " " {
+                if wordStarted {
+                    wordStarted = false
+                    if result.count == 0 {
+                        result = currentWord
+                    } else {
+                        result = result + " " + currentWord
+                    }
+                    
+                    currentWord = ""
+                }
+            } else {
+                if !wordStarted {
+                    wordStarted = true
+                }
+                
+                currentWord.insert(currentChar, at: currentWord.startIndex)
+            }
+        }
+        
+        if currentWord.count > 0 {
+            if result.count == 0 {
+                result = currentWord
+            } else {
+                result = result + " " + currentWord
+            }
+        }
+        
+        return result
+    }
+}
+
+print(ReverseString.reverseWords("a"))
 
