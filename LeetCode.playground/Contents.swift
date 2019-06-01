@@ -877,3 +877,38 @@ class MyQueue {
         return elements.isEmpty
     }
 }
+
+
+class PrimeNumbers {
+    static func countPrimes(_ n: Int) -> [Int] {
+        if n < 2 {
+            return [0]
+        }
+        
+        var primes: [Bool] = Array(repeating: true, count: n)
+        var result = [Int]()
+        var i = 2
+        //there's always be a prime number in square
+        while i*i < primes.count {
+            if primes[i] {
+                var j = i
+                while i*j < primes.count {
+                    primes[i*j] = false
+                    j += 1
+                }
+            }
+            
+            i += 1
+        }
+        
+        for k in 2..<primes.count {
+            if primes[k] {
+                result.append(k)
+            }
+        }
+        
+        return result
+    }
+}
+
+print(PrimeNumbers.countPrimes(10))
