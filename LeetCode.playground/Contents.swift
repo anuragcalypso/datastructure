@@ -845,3 +845,35 @@ class CompressString {
 }
 
 print(CompressString.compress(["a","b","b","b","b","b","b","b","b","b","b","b","b"]))
+
+class MyQueue {
+    var elements: [Int]
+    /** Initialize your data structure here. */
+    init() {
+        elements = [Int]()
+    }
+    
+    /** Push element x to the back of queue. */
+    func push(_ x: Int) {
+        elements.append(x)
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    func pop() -> Int {
+        return elements.removeFirst()
+    }
+    
+    /** Get the front element. */
+    func peek() -> Int {
+        if let first = elements.first {
+            return first
+        }
+        
+        return 0
+    }
+    
+    /** Returns whether the queue is empty. */
+    func empty() -> Bool {
+        return elements.isEmpty
+    }
+}
