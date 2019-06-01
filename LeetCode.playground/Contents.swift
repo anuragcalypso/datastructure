@@ -813,5 +813,35 @@ class SpiralMatrix {
     }
 }
 
-let x = SpiralMatrix.spiralOrder([])
-print(x)
+//let x = SpiralMatrix.spiralOrder([])
+//print(x)
+
+
+class CompressString {
+    static func compress(_ chars: [Character]) -> [Character] {
+        var result = [Character]()
+        var prev = chars[0]
+        var counter = 0
+        for i in stride(from: 0, to: chars.count, by: 1) {
+            if chars[i] == prev {
+                counter += 1
+            } else {
+                result.append(prev)
+                if counter > 1 {
+                    result.append(contentsOf: Array(String(counter)))
+                }
+                prev = chars[i]
+                counter = 1
+            }
+        }
+        
+        result.append(prev)
+        if counter > 1 {
+            result.append(contentsOf: Array(String(counter)))
+        }
+        
+        return result
+    }
+}
+
+print(CompressString.compress(["a","b","b","b","b","b","b","b","b","b","b","b","b"]))
