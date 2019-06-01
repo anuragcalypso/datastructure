@@ -813,5 +813,5 @@ class SpiralMatrix {
     }
 }
 
-let x = SpiralMatrix.spiralOrder([[[1,2,3],[4,5,6],[7,8,9]]])
+let x = SpiralMatrix.spiralOrder([])
 print(x)
