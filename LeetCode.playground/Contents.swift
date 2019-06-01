@@ -844,7 +844,7 @@ class CompressString {
     }
 }
 
-print(CompressString.compress(["a","b","b","b","b","b","b","b","b","b","b","b","b"]))
+//print(CompressString.compress(["a","b","b","b","b","b","b","b","b","b","b","b","b"]))
 
 class MyQueue {
     var elements: [Int]
@@ -911,4 +911,48 @@ class PrimeNumbers {
     }
 }
 
-print(PrimeNumbers.countPrimes(10))
+//print(PrimeNumbers.countPrimes(10))
+
+
+class Anagram {
+    static func isAnagram(_ s: String, _ t: String) -> Bool {
+        let S = Array(s)
+        let T = Array(t)
+        var result = true
+        if S.count == T.count {
+            var map1 = [Character: Int]()
+            var map2 = [Character: Int]()
+            let count = S.count
+            for i in stride(from: 0, to: count, by: 1) {
+                if let val = map1[S[i]] {
+                    map1[S[i]] = val + 1
+                } else {
+                    map1[S[i]] = 1
+                }
+                
+                if let val = map2[T[i]] {
+                    map2[T[i]] = val + 1
+                } else {
+                    map2[T[i]] = 1
+                }
+            }
+            
+            map1.forEach { (item) in
+                guard let val = map2[item.key], result else {
+                    result = false
+                    return
+                }
+                
+                if val != item.value {
+                    result = false
+                }
+            }
+        } else {
+            result = false
+        }
+        
+        return result
+    }
+}
+
+print(Anagram.isAnagram("a", "b"))
